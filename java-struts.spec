@@ -97,11 +97,11 @@ Struts framework documentation.
 Dokumentacja do ¶rodowiska Struts.
 
 %package webapps
-Summary:        Sample Struts webapps for tomcat
+Summary:	Sample Struts webapps for tomcat
 Summary(pl):	Przyk³adowe aplikacje Struts dla tomcata
 Group:		Development/Languages/Java
-Requires:       %{name} = %{version}-%{release}
-Requires:       jakarta-tomcat
+Requires: 	%{name} = %{version}-%{release}
+Requires:	jakarta-tomcat
 
 %description webapps
 Sample Struts webapps for tomcat.
