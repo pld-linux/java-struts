@@ -1,0 +1,30 @@
+--- build-webapp.xml	Sun Feb 10 08:38:52 2002
++++ build-webapp.xml.new	Wed Mar 27 01:09:51 2002
+@@ -181,6 +181,7 @@
+   <mkdir   dir="${webapp.target}" />
+   <mkdir   dir="${webapp.target}/WEB-INF" />
+   <mkdir   dir="${webapp.target}/WEB-INF/classes" />
++  <mkdir   dir="${webapp.target}/WEB-INF/lib" />
+   <mkdir   dir="${webapp.target}" />
+ </target>
+ 
+@@ -238,7 +239,7 @@
+         The "static" target copies the static web resources portion of your
+         web application source into the build target area.
+ -->
+-<target name="static" depends="prepare,source,libs,struts"
++<target name="static" depends="prepare,source,libs"
+         description="Copy static files">
+   <echo    message="Processing webapp ${webapp.name}"/>
+   <copy  todir="${webapp.target}">
+@@ -267,6 +268,10 @@
+       <exclude name="**/*.java"/>
+     </fileset>
+   </copy>
++  <jar jarfile="${webapp.target}/WEB-INF/lib/classes.jar"
++        basedir="${webapp.target}/WEB-INF/classes"/>
++  <delete dir="${webapp.target}/WEB-INF/classes" />
++  <delete dir="${webapp.target}/WEB-INF/src" />
+ </target>
+ 
+ 
