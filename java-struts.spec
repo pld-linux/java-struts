@@ -145,7 +145,7 @@ install -d $RPM_BUILD_ROOT%{tomcatappsdir}
 for webapp in %{webapps}; do
     cp -pr target/$webapp $RPM_BUILD_ROOT%{tomcatappsdir}/%{name}-$webapp
     ln -sf %{_javalibdir}/struts.jar $RPM_BUILD_ROOT%{tomcatappsdir}/%{name}-$webapp/WEB-INF/lib/struts.jar
-    
+
     for tld in $RPM_BUILD_ROOT/%{_datadir}/%{name}/*.tld
     do
 	FILE=`basename $tld`
