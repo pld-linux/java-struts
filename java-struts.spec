@@ -116,19 +116,19 @@ find . -name "*.jar" -exec rm -f {} \;
 
 %build
 ant -Djdbc20ext.jar=%{_javalibdir}/jdbc-stdext.jar \
-    -Dcommons-beanutils.jar=%{_javalibdir}/commons-beanutils.jar \
-    -Dcommons-collections.jar=%{_javalibdir}/commons-collections.jar \
-    -Dstruts-legacy.jar=%{_javalibdir}/struts-legacy.jar \
-    -Dcommons-digester.jar=%{_javalibdir}/commons-digester.jar \
-    -Dcommons-fileupload.jar=%{_javalibdir}/commons-fileupload.jar \
-    -Dcommons-lang.jar=%{_javalibdir}/commons-lang.jar \
-    -Dcommons-logging.jar=%{_javalibdir}/commons-logging.jar \
-    -Dcommons-validator.jar=%{_javalibdir}/commons-validator.jar \
-    -Djakarta-oro.jar=%{_javalibdir}/oro.jar \
-    -Djdk.version=1.4 \
-    compile.library \
-    compile.webapps \
-    compile.javadoc
+	-Dcommons-beanutils.jar=%{_javalibdir}/commons-beanutils.jar \
+	-Dcommons-collections.jar=%{_javalibdir}/commons-collections.jar \
+	-Dstruts-legacy.jar=%{_javalibdir}/struts-legacy.jar \
+	-Dcommons-digester.jar=%{_javalibdir}/commons-digester.jar \
+	-Dcommons-fileupload.jar=%{_javalibdir}/commons-fileupload.jar \
+	-Dcommons-lang.jar=%{_javalibdir}/commons-lang.jar \
+	-Dcommons-logging.jar=%{_javalibdir}/commons-logging.jar \
+	-Dcommons-validator.jar=%{_javalibdir}/commons-validator.jar \
+	-Djakarta-oro.jar=%{_javalibdir}/oro.jar \
+	-Djdk.version=1.4 \
+	compile.library \
+	compile.webapps \
+	compile.javadoc
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -143,16 +143,16 @@ cp target/library/*.dtd $RPM_BUILD_ROOT%{_datadir}/%{name}
 
 install -d $RPM_BUILD_ROOT%{tomcatappsdir}
 for webapp in %{webapps}; do
-    cp -pr target/$webapp $RPM_BUILD_ROOT%{tomcatappsdir}/%{name}-$webapp
-    ln -sf %{_javalibdir}/struts.jar $RPM_BUILD_ROOT%{tomcatappsdir}/%{name}-$webapp/WEB-INF/lib/struts.jar
+	cp -pr target/$webapp $RPM_BUILD_ROOT%{tomcatappsdir}/%{name}-$webapp
+	ln -sf %{_javalibdir}/struts.jar $RPM_BUILD_ROOT%{tomcatappsdir}/%{name}-$webapp/WEB-INF/lib/struts.jar
 
-    for tld in $RPM_BUILD_ROOT/%{_datadir}/%{name}/*.tld
-    do
-	FILE=`basename $tld`
-	FROM=%{_datadir}/%{name}/$FILE
-	TO=$RPM_BUILD_ROOT%{tomcatappsdir}/%{name}-$webapp/WEB-INF/$FILE
-	ln -sf $FROM $TO
-    done
+	for tld in $RPM_BUILD_ROOT%{_datadir}/%{name}/*.tld
+	do
+		FILE=`basename $tld`
+		FROM=%{_datadir}/%{name}/$FILE
+		TO=$RPM_BUILD_ROOT%{tomcatappsdir}/%{name}-$webapp/WEB-INF/$FILE
+		ln -sf $FROM $TO
+	done
 done
 
 %clean
