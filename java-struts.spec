@@ -77,9 +77,9 @@ Struts obejmuje nastêpuj±ce obszary funkcjonalno¶ci:
 - biblioteki w³asnych znaczników JSP i zwi±zana z nimi obs³uga
   serwletu kontroluj±cego, pomagaj±ce programistom w tworzeniu
   interaktywnych aplikacji opartych na formularzach;
-- klasy narzêdziowe obs³uguj±ce analizê XML, automatyczne wype³nianie
-  w³asno¶ci JavaBeans w oparciu o API Javy oraz umiêdzynarodowienie
-  zapytañ i komunikatów.
+- klasy narzêdziowe obs³uguj±ce analizê XML-a, automatyczne
+  wype³nianie w³asno¶ci JavaBeans w oparciu o API Javy oraz
+  umiêdzynarodowienie zapytañ i komunikatów.
 
 Struts jest czê¶ci± projektu Jakarta, sponsorowanego przez Apache
 Software Foundation. Oficjalna strona projektu Struts to
