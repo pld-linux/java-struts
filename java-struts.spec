@@ -3,8 +3,9 @@ Name:		jakarta-struts
 Version:	1.1
 Release:	0.1
 License:	Apache License
-Source:		http://www.apache.org/dist/jakarta/struts/source/%{name}-%{version}-src.tar.gz
-Patch:		%{name}-build.patch
+Source0:	http://www.apache.org/dist/jakarta/struts/source/%{name}-%{version}-src.tar.gz
+# Source0-md5:	c21f443d145f5753d5b560a2d3c2d065
+Patch0:		%{name}-build.patch
 Group:		Development/Languages/Java
 URL:		http://jakarta.apache.org/struts
 Requires:	servlet
@@ -68,7 +69,7 @@ Sample struts webapps for tomcat.
 
 %prep
 %setup -q -n %{name}-%{version}-src
-%patch
+%patch0
 find . -name "*.jar" -exec rm -f {} \;
 
 %build
