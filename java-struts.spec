@@ -9,8 +9,7 @@ Source0:	http://www.apache.org/dist/jakarta/struts/source/%{name}-%{version}-src
 # Source0-md5:	c21f443d145f5753d5b560a2d3c2d065
 Patch0:		%{name}-build.patch
 URL:		http://jakarta.apache.org/struts/
-BuildRequires:	jakarta-ant >= 1.5
-BuildRequires:	jaxp_transform_impl
+BuildRequires:	jakarta-ant >= 1.6
 BuildRequires:	servlet
 BuildRequires:	jdbc-stdext >= 2.0-2
 BuildRequires:	jakarta-commons-beanutils
@@ -37,7 +36,6 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define 	tomcatappsdir	%{_libdir}/tomcat/webapps
 %define 	webapps		blank example template-example exercise-taglib upload
-%define		_javalibdir	%{_datadir}/java
 
 %description
 Welcome to the Struts Framework! The goal of this project is to
@@ -115,16 +113,16 @@ Przyk³adowe aplikacje Struts dla tomcata.
 find . -name "*.jar" -exec rm -f {} \;
 
 %build
-ant -Djdbc20ext.jar=%{_javalibdir}/jdbc-stdext.jar \
-	-Dcommons-beanutils.jar=%{_javalibdir}/commons-beanutils.jar \
-	-Dcommons-collections.jar=%{_javalibdir}/commons-collections.jar \
-	-Dstruts-legacy.jar=%{_javalibdir}/struts-legacy.jar \
-	-Dcommons-digester.jar=%{_javalibdir}/commons-digester.jar \
-	-Dcommons-fileupload.jar=%{_javalibdir}/commons-fileupload.jar \
-	-Dcommons-lang.jar=%{_javalibdir}/commons-lang.jar \
-	-Dcommons-logging.jar=%{_javalibdir}/commons-logging.jar \
-	-Dcommons-validator.jar=%{_javalibdir}/commons-validator.jar \
-	-Djakarta-oro.jar=%{_javalibdir}/oro.jar \
+ant -Djdbc20ext.jar=%{_javadir}/jdbc-stdext.jar \
+	-Dcommons-beanutils.jar=%{_javadir}/commons-beanutils.jar \
+	-Dcommons-collections.jar=%{_javadir}/commons-collections.jar \
+	-Dstruts-legacy.jar=%{_javadir}/struts-legacy.jar \
+	-Dcommons-digester.jar=%{_javadir}/commons-digester.jar \
+	-Dcommons-fileupload.jar=%{_javadir}/commons-fileupload.jar \
+	-Dcommons-lang.jar=%{_javadir}/commons-lang.jar \
+	-Dcommons-logging.jar=%{_javadir}/commons-logging.jar \
+	-Dcommons-validator.jar=%{_javadir}/commons-validator.jar \
+	-Djakarta-oro.jar=%{_javadir}/oro.jar \
 	-Djdk.version=1.4 \
 	compile.library \
 	compile.webapps \
@@ -133,9 +131,9 @@ ant -Djdbc20ext.jar=%{_javalibdir}/jdbc-stdext.jar \
 %install
 rm -rf $RPM_BUILD_ROOT
 
-install -d $RPM_BUILD_ROOT%{_javalibdir}
-cp target/library/struts.jar $RPM_BUILD_ROOT%{_javalibdir}
-ln -sf struts.jar $RPM_BUILD_ROOT%{_javalibdir}/struts-%{version}.jar
+install -d $RPM_BUILD_ROOT%{_javadir}
+cp target/library/struts.jar $RPM_BUILD_ROOT%{_javadir}
+ln -sf struts.jar $RPM_BUILD_ROOT%{_javadir}/struts-%{version}.jar
 
 install -d $RPM_BUILD_ROOT%{_datadir}/%{name}
 cp target/library/*.tld $RPM_BUILD_ROOT%{_datadir}/%{name}
@@ -144,7 +142,7 @@ cp target/library/*.dtd $RPM_BUILD_ROOT%{_datadir}/%{name}
 install -d $RPM_BUILD_ROOT%{tomcatappsdir}
 for webapp in %{webapps}; do
 	cp -pr target/$webapp $RPM_BUILD_ROOT%{tomcatappsdir}/%{name}-$webapp
-	ln -sf %{_javalibdir}/struts.jar $RPM_BUILD_ROOT%{tomcatappsdir}/%{name}-$webapp/WEB-INF/lib/struts.jar
+	ln -sf %{_javadir}/struts.jar $RPM_BUILD_ROOT%{tomcatappsdir}/%{name}-$webapp/WEB-INF/lib/struts.jar
 
 	for tld in $RPM_BUILD_ROOT%{_datadir}/%{name}/*.tld
 	do
