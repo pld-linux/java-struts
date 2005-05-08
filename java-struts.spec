@@ -1,17 +1,16 @@
 Summary:	Web application framework
 Summary(pl):	Szkielet dla aplikacji WWW
 Name:		jakarta-struts
-Version:	1.1
+Version:	1.2.6
 Release:	0.1
-License:	Apache License
+License:	Apache v2.0
 Group:		Development/Languages/Java
-Source0:	http://www.apache.org/dist/jakarta/struts/source/%{name}-%{version}-src.tar.gz
-# Source0-md5:	c21f443d145f5753d5b560a2d3c2d065
+Source0:	http://www.apache.org/dist/struts/source/struts-%{version}-src.tar.gz
+# Source0-md5:	392fdbcba2f440ce9ed960c0827e691e
 Patch0:		%{name}-build.patch
-URL:		http://jakarta.apache.org/struts/
+URL:		http://struts.apache.org/
+BuildRequires:	antlr
 BuildRequires:	jakarta-ant >= 1.6
-BuildRequires:	servlet
-BuildRequires:	jdbc-stdext >= 2.0-2
 BuildRequires:	jakarta-commons-beanutils
 BuildRequires:	jakarta-commons-collections
 BuildRequires:	jakarta-commons-digester
@@ -21,8 +20,8 @@ BuildRequires:	jakarta-commons-logging >= 1.0.3
 BuildRequires:	jakarta-commons-validator
 BuildRequires:	jakarta-oro
 BuildRequires:	jakarta-struts-legacy
-Requires:	servlet
-Requires:	jdbc-stdext >= 2.0
+BuildRequires:	jdbc-stdext >= 2.0-2
+BuildRequires:	servlet
 Requires:	jakarta-commons-beanutils
 Requires:	jakarta-commons-collections
 Requires:	jakarta-commons-digester
@@ -31,11 +30,13 @@ Requires:	jakarta-commons-lang
 Requires:	jakarta-commons-logging >= 1.0.3
 Requires:	jakarta-commons-validator
 Requires:	jakarta-oro
+Requires:	jdbc-stdext >= 2.0
+Requires:	servlet
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define 	tomcatappsdir	%{_libdir}/tomcat/webapps
-%define 	webapps		blank example template-example exercise-taglib upload
+%define 	webapps		blank example examples
 
 %description
 Welcome to the Struts Framework! The goal of this project is to
@@ -56,10 +57,6 @@ Struts includes the following primary areas of functionality:
   JavaBeans properties based on the Java reflection APIs, and
   internationalization of prompts and messages.
 
-Struts is part of the Jakarta Project, sponsored by the Apache
-Software Foundation. The official Struts home page is at
-http://jakarta.apache.org/struts/.
-
 %description -l pl
 Witamy w ¦rodowisku Struts! Celem tego projektu jest dostarczenie
 szkieletu z otwartymi ¼ród³ami, przydatnego przy tworzeniu aplikacji
@@ -78,10 +75,6 @@ Struts obejmuje nastêpuj±ce obszary funkcjonalno¶ci:
 - klasy narzêdziowe obs³uguj±ce analizê XML-a, automatyczne
   wype³nianie w³asno¶ci JavaBeans w oparciu o API Javy oraz
   umiêdzynarodowienie zapytañ i komunikatów.
-
-Struts jest czê¶ci± projektu Jakarta, sponsorowanego przez Apache
-Software Foundation. Oficjalna strona projektu Struts to
-http://jakarta.apache.org/struts/.
 
 %package doc
 Summary:	Struts framework documentation
@@ -108,25 +101,24 @@ Sample Struts webapps for tomcat.
 Przyk³adowe aplikacje Struts dla tomcata.
 
 %prep
-%setup -q -n %{name}-%{version}-src
-%patch0
+%setup -q -n struts-%{version}-src
+%patch0 -p1
 find . -name "*.jar" -exec rm -f {} \;
 
 %build
-ant -Djdbc20ext.jar=%{_javadir}/jdbc-stdext.jar \
+ant compile.library compile.webapps compile.javadoc \
+	-Dantlr.jar=%{_javadir}/antlr.jar \
 	-Dcommons-beanutils.jar=%{_javadir}/commons-beanutils.jar \
 	-Dcommons-collections.jar=%{_javadir}/commons-collections.jar \
-	-Dstruts-legacy.jar=%{_javadir}/struts-legacy.jar \
 	-Dcommons-digester.jar=%{_javadir}/commons-digester.jar \
 	-Dcommons-fileupload.jar=%{_javadir}/commons-fileupload.jar \
 	-Dcommons-lang.jar=%{_javadir}/commons-lang.jar \
 	-Dcommons-logging.jar=%{_javadir}/commons-logging.jar \
 	-Dcommons-validator.jar=%{_javadir}/commons-validator.jar \
 	-Djakarta-oro.jar=%{_javadir}/oro.jar \
-	-Djdk.version=1.4 \
-	compile.library \
-	compile.webapps \
-	compile.javadoc
+	-Djdbc20ext.jar=%{_javadir}/jdbc-stdext.jar \
+	-Dservlet.jar=%{_javadir}/servlet.jar \
+	-Dstruts-legacy.jar=%{_javadir}/struts-legacy.jar
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -158,8 +150,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc INSTALL LICENSE README WhoWeAre
-%{_javadir}/*
+%doc INSTALL LICENSE.txt README STATUS.txt
+%{_javadir}/*.jar
 %{_datadir}/%{name}
 
 %files doc
@@ -172,6 +164,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc target/documentation/api
 
 %files webapps
+# XXX: this defattr is EVIL, is global http:http really needed???
 %defattr(644,http,http,755)
 %dir %{tomcatappsdir}/%{name}-blank
 %dir %{tomcatappsdir}/%{name}-blank/WEB-INF
@@ -180,20 +173,13 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) %{tomcatappsdir}/%{name}-blank/WEB-INF/tiles-defs.xml
 %config(noreplace) %{tomcatappsdir}/%{name}-blank/WEB-INF/validation.xml
 %config(noreplace) %{tomcatappsdir}/%{name}-blank/WEB-INF/validator-rules.xml
-%config(noreplace) %{tomcatappsdir}/%{name}-blank/WEB-INF/classes/resources/*.properties
+%{tomcatappsdir}/%{name}-blank/WEB-INF/classes
 %{tomcatappsdir}/%{name}-blank/WEB-INF/src
 %{tomcatappsdir}/%{name}-blank/WEB-INF/lib
 %{tomcatappsdir}/%{name}-blank/WEB-INF/*.tld
 %dir %{tomcatappsdir}/%{name}-blank/pages
 %{tomcatappsdir}/%{name}-blank/pages/*.jsp
 %{tomcatappsdir}/%{name}-blank/*.jsp
-%dir %{tomcatappsdir}/%{name}-upload
-%dir %{tomcatappsdir}/%{name}-upload/WEB-INF
-%config(noreplace) %{tomcatappsdir}/%{name}-upload/WEB-INF/web.xml
-%config(noreplace) %{tomcatappsdir}/%{name}-upload/WEB-INF/struts-config.xml
-%{tomcatappsdir}/%{name}-upload/WEB-INF/lib
-%{tomcatappsdir}/%{name}-upload/WEB-INF/*.tld
-%{tomcatappsdir}/%{name}-upload/*.jsp
 %dir %{tomcatappsdir}/%{name}-example
 %dir %{tomcatappsdir}/%{name}-example/WEB-INF
 %config(noreplace) %{tomcatappsdir}/%{name}-example/WEB-INF/web.xml
@@ -203,25 +189,33 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) %{tomcatappsdir}/%{name}-example/WEB-INF/action.xml
 %config(noreplace) %{tomcatappsdir}/%{name}-example/WEB-INF/validation.xml
 %config(noreplace) %{tomcatappsdir}/%{name}-example/WEB-INF/validator-rules.xml
+%{tomcatappsdir}/%{name}-example/WEB-INF/classes
+%{tomcatappsdir}/%{name}-example/WEB-INF/entities
 %{tomcatappsdir}/%{name}-example/WEB-INF/lib
+%{tomcatappsdir}/%{name}-example/WEB-INF/src
+%{tomcatappsdir}/%{name}-example/WEB-INF/*.dtd
 %{tomcatappsdir}/%{name}-example/WEB-INF/*.tld
-%{tomcatappsdir}/%{name}-example/*.jsp
-%{tomcatappsdir}/%{name}-example/*.htm
+%{tomcatappsdir}/%{name}-example/WEB-INF/*.xml
+%{tomcatappsdir}/%{name}-example/*.css
 %{tomcatappsdir}/%{name}-example/*.gif
-%dir %{tomcatappsdir}/%{name}-template-example
-%dir %{tomcatappsdir}/%{name}-template-example/WEB-INF
-%config(noreplace) %{tomcatappsdir}/%{name}-template-example/WEB-INF/web.xml
-%config(noreplace) %{tomcatappsdir}/%{name}-template-example/WEB-INF/struts-config.xml
-%{tomcatappsdir}/%{name}-template-example/WEB-INF/lib
-%{tomcatappsdir}/%{name}-template-example/WEB-INF/*.tld
-%{tomcatappsdir}/%{name}-template-example/graphics
-%{tomcatappsdir}/%{name}-template-example/css
-%{tomcatappsdir}/%{name}-template-example/*.jsp
-%{tomcatappsdir}/%{name}-template-example/*.html
-%dir %{tomcatappsdir}/%{name}-exercise-taglib
-%dir %{tomcatappsdir}/%{name}-exercise-taglib/WEB-INF
-%config(noreplace) %{tomcatappsdir}/%{name}-exercise-taglib/WEB-INF/web.xml
-%config(noreplace) %{tomcatappsdir}/%{name}-exercise-taglib/WEB-INF/struts-config.xml
-%{tomcatappsdir}/%{name}-exercise-taglib/WEB-INF/lib
-%{tomcatappsdir}/%{name}-exercise-taglib/WEB-INF/*.tld
-%{tomcatappsdir}/%{name}-exercise-taglib/*.jsp
+%{tomcatappsdir}/%{name}-example/*.jsp
+%{tomcatappsdir}/%{name}-example/*.html
+%dir %{tomcatappsdir}/%{name}-examples
+%dir %{tomcatappsdir}/%{name}-examples/WEB-INF
+%config(noreplace) %{tomcatappsdir}/%{name}-examples/WEB-INF/web.xml
+%config(noreplace) %{tomcatappsdir}/%{name}-examples/WEB-INF/struts-config.xml
+%config(noreplace) %{tomcatappsdir}/%{name}-examples/WEB-INF/validator-rules.xml
+%dir %{tomcatappsdir}/%{name}-examples/WEB-INF/upload
+%config(noreplace) %{tomcatappsdir}/%{name}-examples/WEB-INF/upload/struts-config.xml
+%dir %{tomcatappsdir}/%{name}-examples/WEB-INF/validator
+%config(noreplace) %{tomcatappsdir}/%{name}-examples/WEB-INF/validator/struts-config.xml
+%config(noreplace) %{tomcatappsdir}/%{name}-examples/WEB-INF/validator/validation.xml
+%{tomcatappsdir}/%{name}-examples/WEB-INF/classes
+%{tomcatappsdir}/%{name}-examples/WEB-INF/exercise
+%{tomcatappsdir}/%{name}-examples/WEB-INF/lib
+%{tomcatappsdir}/%{name}-examples/WEB-INF/src
+%{tomcatappsdir}/%{name}-examples/exercise
+%{tomcatappsdir}/%{name}-examples/upload
+%{tomcatappsdir}/%{name}-examples/validator
+%{tomcatappsdir}/%{name}-examples/*.html
+%{tomcatappsdir}/%{name}-examples/*.jsp
