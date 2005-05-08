@@ -1,30 +1,38 @@
---- build-webapp.xml	Sun Feb 10 08:38:52 2002
-+++ build-webapp.xml.new	Wed Mar 27 01:09:51 2002
-@@ -181,6 +181,7 @@
-   <mkdir   dir="${webapp.target}" />
-   <mkdir   dir="${webapp.target}/WEB-INF" />
-   <mkdir   dir="${webapp.target}/WEB-INF/classes" />
-+  <mkdir   dir="${webapp.target}/WEB-INF/lib" />
-   <mkdir   dir="${webapp.target}" />
- </target>
+--- struts-1.2.6-src/build.xml.orig	2004-11-20 22:44:25.000000000 +0100
++++ struts-1.2.6-src/build.xml	2005-05-08 22:39:38.133298616 +0200
+@@ -296,6 +296,7 @@
+      description="Compile Struts library files">
+         <javac srcdir="${src.share.dir}"
+             destdir="${build.home}/library/classes"
++	    source="1.4"
+             debug="${compile.debug}"
+             optimize="${compile.optimize}"
+             deprecation="${compile.deprecation}">
+@@ -349,6 +350,7 @@
+         <mkdir dir="${build.home}/documentation/api"/>
+         <javadoc sourcepath="${src.share.dir}"
+             destdir="${build.home}/documentation/api"
++	    source="1.4"
+             classpath="${servlet.jar}:${jsp.jar}:${jdbc20ext.jar}"
+             packagenames="org.apache.struts.*"
+             author="true"
+--- struts-1.2.6-src/build-webapps.xml.orig	2004-11-20 22:44:14.000000000 +0100
++++ struts-1.2.6-src/build-webapps.xml	2005-05-08 23:09:39.670423344 +0200
+@@ -189,7 +189,7 @@
+     </copy>
  
-@@ -238,7 +239,7 @@
-         The "static" target copies the static web resources portion of your
-         web application source into the build target area.
+     <!-- Validate tiles docs -->
+-    <xmlvalidate warn="yes" failonerror="yes" lenient="no">
++    <xmlvalidate warn="yes" failonerror="no" lenient="no">
+        <fileset dir="${build.home}/tiles-documentation" includes="**/*.html"/>
+ 
+       <!-- Reference local DTDS to avoid network lookup -->
+@@ -290,7 +290,7 @@
+         documentation against the DTDs
  -->
--<target name="static" depends="prepare,source,libs,struts"
-+<target name="static" depends="prepare,source,libs"
-         description="Copy static files">
-   <echo    message="Processing webapp ${webapp.name}"/>
-   <copy  todir="${webapp.target}">
-@@ -267,6 +268,10 @@
-       <exclude name="**/*.java"/>
-     </fileset>
-   </copy>
-+  <jar jarfile="${webapp.target}/WEB-INF/lib/classes.jar"
-+        basedir="${webapp.target}/WEB-INF/classes"/>
-+  <delete dir="${webapp.target}/WEB-INF/classes" />
-+  <delete dir="${webapp.target}/WEB-INF/src" />
- </target>
- 
- 
+ <target name="validate.docs" description="Validate generated XHTML documents">
+-    <xmlvalidate warn="yes" failonerror="yes" lenient="no">
++    <xmlvalidate warn="yes" failonerror="no" lenient="no">
+        <fileset dir="${build.home}/documentation">
+         <include name="**/*.html"/>
+         <exclude name="download.html"/>
