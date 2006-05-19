@@ -10,7 +10,7 @@ Source0:	http://www.apache.org/dist/struts/source/struts-%{version}-src.tar.gz
 Patch0:		%{name}-build.patch
 URL:		http://struts.apache.org/
 BuildRequires:	antlr
-BuildRequires:	jakarta-ant >= 1.6
+BuildRequires:	ant >= 1.6
 BuildRequires:	jakarta-commons-beanutils
 BuildRequires:	jakarta-commons-collections
 BuildRequires:	jakarta-commons-digester
