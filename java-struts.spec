@@ -1,5 +1,5 @@
 Summary:	Web application framework
-Summary(pl):	Szkielet dla aplikacji WWW
+Summary(pl.UTF-8):   Szkielet dla aplikacji WWW
 Name:		jakarta-struts
 Version:	1.2.6
 Release:	0.1
@@ -57,39 +57,39 @@ Struts includes the following primary areas of functionality:
   JavaBeans properties based on the Java reflection APIs, and
   internationalization of prompts and messages.
 
-%description -l pl
-Witamy w ¦rodowisku Struts! Celem tego projektu jest dostarczenie
-szkieletu z otwartymi ¼ród³ami, przydatnego przy tworzeniu aplikacji
-WWW u¿ywaj±cych technologii Java Servlet i JSP (JavaServer Pages).
+%description -l pl.UTF-8
+Witamy w Åšrodowisku Struts! Celem tego projektu jest dostarczenie
+szkieletu z otwartymi ÅºrÃ³dÅ‚ami, przydatnego przy tworzeniu aplikacji
+WWW uÅ¼ywajÄ…cych technologii Java Servlet i JSP (JavaServer Pages).
 Struts wspiera architektury projektowane w oparciu o paradygmat MVC
 (Model-View-Controller - model-widok-kontroler), kolokwialnie
-nazywanym modelem 2. w dyskusjach na ró¿nych listach zwi±zanych z
+nazywanym modelem 2. w dyskusjach na rÃ³Å¼nych listach zwiÄ…zanych z
 serwletami i JSP.
 
-Struts obejmuje nastêpuj±ce obszary funkcjonalno¶ci:
-- serwlet kontroluj±cy, który wysy³a ¿±dania do odpowiednich klas
-  akcji dostarczonych przez twórców aplikacji;
-- biblioteki w³asnych znaczników JSP i zwi±zana z nimi obs³uga
-  serwletu kontroluj±cego, pomagaj±ce programistom w tworzeniu
+Struts obejmuje nastÄ™pujÄ…ce obszary funkcjonalnoÅ›ci:
+- serwlet kontrolujÄ…cy, ktÃ³ry wysyÅ‚a Å¼Ä…dania do odpowiednich klas
+  akcji dostarczonych przez twÃ³rcÃ³w aplikacji;
+- biblioteki wÅ‚asnych znacznikÃ³w JSP i zwiÄ…zana z nimi obsÅ‚uga
+  serwletu kontrolujÄ…cego, pomagajÄ…ce programistom w tworzeniu
   interaktywnych aplikacji opartych na formularzach;
-- klasy narzêdziowe obs³uguj±ce analizê XML-a, automatyczne
-  wype³nianie w³asno¶ci JavaBeans w oparciu o API Javy oraz
-  umiêdzynarodowienie zapytañ i komunikatów.
+- klasy narzÄ™dziowe obsÅ‚ugujÄ…ce analizÄ™ XML-a, automatyczne
+  wypeÅ‚nianie wÅ‚asnoÅ›ci JavaBeans w oparciu o API Javy oraz
+  umiÄ™dzynarodowienie zapytaÅ„ i komunikatÃ³w.
 
 %package doc
 Summary:	Struts framework documentation
-Summary(pl):	Dokumentacja do ¶rodowiska Struts
+Summary(pl.UTF-8):   Dokumentacja do Å›rodowiska Struts
 Group:		Documentation
 
 %description doc
 Struts framework documentation.
 
-%description doc -l pl
-Dokumentacja do ¶rodowiska Struts.
+%description doc -l pl.UTF-8
+Dokumentacja do Å›rodowiska Struts.
 
 %package webapps
 Summary:	Sample Struts webapps for tomcat
-Summary(pl):	Przyk³adowe aplikacje Struts dla tomcata
+Summary(pl.UTF-8):   PrzykÅ‚adowe aplikacje Struts dla tomcata
 Group:		Development/Languages/Java
 Requires:	%{name} = %{version}-%{release}
 Requires:	jakarta-tomcat
@@ -97,8 +97,8 @@ Requires:	jakarta-tomcat
 %description webapps
 Sample Struts webapps for tomcat.
 
-%description webapps -l pl
-Przyk³adowe aplikacje Struts dla tomcata.
+%description webapps -l pl.UTF-8
+PrzykÅ‚adowe aplikacje Struts dla tomcata.
 
 %prep
 %setup -q -n struts-%{version}-src
