@@ -1,5 +1,5 @@
 Summary:	Web application framework
-Summary(pl.UTF-8):   Szkielet dla aplikacji WWW
+Summary(pl.UTF-8):	Szkielet dla aplikacji WWW
 Name:		jakarta-struts
 Version:	1.2.6
 Release:	0.1
@@ -78,7 +78,7 @@ Struts obejmuje następujące obszary funkcjonalności:
 
 %package doc
 Summary:	Struts framework documentation
-Summary(pl.UTF-8):   Dokumentacja do środowiska Struts
+Summary(pl.UTF-8):	Dokumentacja do środowiska Struts
 Group:		Documentation
 
 %description doc
@@ -89,7 +89,7 @@ Dokumentacja do środowiska Struts.
 
 %package webapps
 Summary:	Sample Struts webapps for tomcat
-Summary(pl.UTF-8):   Przykładowe aplikacje Struts dla tomcata
+Summary(pl.UTF-8):	Przykładowe aplikacje Struts dla tomcata
 Group:		Development/Languages/Java
 Requires:	%{name} = %{version}-%{release}
 Requires:	jakarta-tomcat
