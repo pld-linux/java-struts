@@ -2,26 +2,30 @@ Summary:	Web application framework
 Summary(pl.UTF-8):	Szkielet dla aplikacji WWW
 Name:		jakarta-struts
 Version:	1.2.6
-Release:	0.1
+Release:	0.2
 License:	Apache v2.0
 Group:		Development/Languages/Java
 Source0:	http://www.apache.org/dist/struts/source/struts-%{version}-src.tar.gz
 # Source0-md5:	392fdbcba2f440ce9ed960c0827e691e
 Patch0:		%{name}-build.patch
 URL:		http://struts.apache.org/
-BuildRequires:	antlr
 BuildRequires:	ant >= 1.6
-BuildRequires:	jakarta-commons-beanutils
+BuildRequires:	ant-apache-regexp
+BuildRequires:	ant-nodeps
+BuildRequires:	ant-trax
+BuildRequires:	antlr >= 2.7.2
+BuildRequires:	jakarta-commons-beanutils >= 1.6.1
 BuildRequires:	jakarta-commons-collections
-BuildRequires:	jakarta-commons-digester
-BuildRequires:	jakarta-commons-fileupload
+BuildRequires:	jakarta-commons-digester >= 1.5
+BuildRequires:	jakarta-commons-fileupload >= 1.0
 BuildRequires:	jakarta-commons-lang
 BuildRequires:	jakarta-commons-logging >= 1.0.3
-BuildRequires:	jakarta-commons-validator
-BuildRequires:	jakarta-oro
-BuildRequires:	jakarta-struts-legacy
+BuildRequires:	jakarta-commons-validator >= 1.1.0
+BuildRequires:	jakarta-oro >= 2.0.7
 BuildRequires:	jdbc-stdext >= 2.0-2
-BuildRequires:	servlet
+BuildRequires:	jpackage-utils
+BuildRequires:	rpmbuild(macros) >= 1.300
+BuildRequires:	servlet >= 2.2
 Requires:	jakarta-commons-beanutils
 Requires:	jakarta-commons-collections
 Requires:	jakarta-commons-digester
@@ -103,22 +107,23 @@ Przykładowe aplikacje Struts dla tomcata.
 %prep
 %setup -q -n struts-%{version}-src
 %patch0 -p1
-find . -name "*.jar" -exec rm -f {} \;
+find . -name '*.jar' | xargs rm -v
 
 %build
-ant compile.library compile.webapps compile.javadoc \
-	-Dantlr.jar=%{_javadir}/antlr.jar \
+required_jars="
+antlr commons-beanutils commons-collections commons-digester commons-fileupload
+commons-lang commons-logging commons-validator oro servlet
+"
+export CLASSPATH=$(/usr/bin/build-classpath $required_jars)
+
+%ant compile.library compile.webapps compile.javadoc \
 	-Dcommons-beanutils.jar=%{_javadir}/commons-beanutils.jar \
-	-Dcommons-collections.jar=%{_javadir}/commons-collections.jar \
 	-Dcommons-digester.jar=%{_javadir}/commons-digester.jar \
 	-Dcommons-fileupload.jar=%{_javadir}/commons-fileupload.jar \
-	-Dcommons-lang.jar=%{_javadir}/commons-lang.jar \
 	-Dcommons-logging.jar=%{_javadir}/commons-logging.jar \
 	-Dcommons-validator.jar=%{_javadir}/commons-validator.jar \
 	-Djakarta-oro.jar=%{_javadir}/oro.jar \
-	-Djdbc20ext.jar=%{_javadir}/jdbc-stdext.jar \
-	-Dservlet.jar=%{_javadir}/servlet.jar \
-	-Dstruts-legacy.jar=%{_javadir}/struts-legacy.jar
+	-Dantlr.jar=%{_javadir}/antlr.jar \
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -195,7 +200,10 @@ rm -rf $RPM_BUILD_ROOT
 %{tomcatappsdir}/%{name}-example/WEB-INF/src
 %{tomcatappsdir}/%{name}-example/WEB-INF/*.dtd
 %{tomcatappsdir}/%{name}-example/WEB-INF/*.tld
-%{tomcatappsdir}/%{name}-example/WEB-INF/*.xml
+%{tomcatappsdir}/%{name}-example/WEB-INF/lvb-digester-rules.xml
+%{tomcatappsdir}/%{name}-example/WEB-INF/server-types.xml
+%{tomcatappsdir}/%{name}-example/WEB-INF/webtest.xml
+%{tomcatappsdir}/%{name}-example/WEB-INF/webtest.properties.sample
 %{tomcatappsdir}/%{name}-example/*.css
 %{tomcatappsdir}/%{name}-example/*.gif
 %{tomcatappsdir}/%{name}-example/*.jsp
