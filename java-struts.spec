@@ -1,31 +1,32 @@
 Summary:	Web application framework
 Summary(pl.UTF-8):	Szkielet dla aplikacji WWW
 Name:		jakarta-struts
-Version:	1.2.6
-Release:	0.2
+Version:	1.3.8
+Release:	0.1
 License:	Apache v2.0
 Group:		Development/Languages/Java
-Source0:	http://www.apache.org/dist/struts/source/struts-%{version}-src.tar.gz
-# Source0-md5:	392fdbcba2f440ce9ed960c0827e691e
+Source0:	http://www.apache.org/dist/struts/source/struts-%{version}-src.zip
+# Source0-md5:	44b143605e664dd041b9294aa683af6a
 Patch0:		%{name}-build.patch
 URL:		http://struts.apache.org/
-BuildRequires:	ant >= 1.6
-BuildRequires:	ant-apache-regexp
-BuildRequires:	ant-nodeps
-BuildRequires:	ant-trax
-BuildRequires:	antlr >= 2.7.2
-BuildRequires:	jakarta-commons-beanutils >= 1.6.1
-BuildRequires:	jakarta-commons-collections
-BuildRequires:	jakarta-commons-digester >= 1.5
-BuildRequires:	jakarta-commons-fileupload >= 1.0
-BuildRequires:	jakarta-commons-lang
-BuildRequires:	jakarta-commons-logging >= 1.0.3
-BuildRequires:	jakarta-commons-validator >= 1.1.0
-BuildRequires:	jakarta-oro >= 2.0.7
+#BuildRequires:	ant >= 1.6
+#BuildRequires:	ant-apache-regexp
+#BuildRequires:	ant-nodeps
+#BuildRequires:	ant-trax
+#BuildRequires:	antlr >= 2.7.2
+#BuildRequires:	jakarta-commons-beanutils >= 1.6.1
+#BuildRequires:	jakarta-commons-collections
+#BuildRequires:	jakarta-commons-digester >= 1.5
+#BuildRequires:	jakarta-commons-fileupload >= 1.0
+#BuildRequires:	jakarta-commons-lang
+#BuildRequires:	jakarta-commons-logging >= 1.0.3
+#BuildRequires:	jakarta-commons-validator >= 1.1.0
+#BuildRequires:	jakarta-oro >= 2.0.7
 BuildRequires:	jdbc-stdext >= 2.0-2
-BuildRequires:	jpackage-utils
+#BuildRequires:	jpackage-utils
+BuildRequires:	maven >= 2
 BuildRequires:	rpmbuild(macros) >= 1.300
-BuildRequires:	servlet >= 2.2
+#BuildRequires:	servlet5
 Requires:	jakarta-commons-beanutils
 Requires:	jakarta-commons-collections
 Requires:	jakarta-commons-digester
@@ -105,16 +106,30 @@ Sample Struts webapps for tomcat.
 Przykładowe aplikacje Struts dla tomcata.
 
 %prep
-%setup -q -n struts-%{version}-src
-%patch0 -p1
-find . -name '*.jar' | xargs rm -v
+%setup -q -n struts-%{version}
 
 %build
+%define	mvn mvn --settings settings.xml
+cd src
+
+export JAVA_HOME="%{java_home}"
+cat <<EOF > settings.xml
+<settings>
+	<localRepository>$RPM_BUILD_ROOT</localRepository>
+</settings>
+EOF
+
+#%mvn install:install-file -DgroupId=org.apache.struts -DartifactId=struts-master -Dpackaging=jar -Dfile=$(build-classpath bsf) -Dversion=2.3.0
+%mvn install:install-file -DgroupId=bsf -DartifactId=bsf -Dpackaging=jar -Dfile=$(build-classpath bsf) -Dversion=2.3.0
+%mvn package
+
+%if 0
 required_jars="
 antlr commons-beanutils commons-collections commons-digester commons-fileupload
 commons-lang commons-logging commons-validator oro servlet
+jsp-api
 "
-export CLASSPATH=$(/usr/bin/build-classpath $required_jars)
+export CLASSPATH=$(build-classpath $required_jars)
 
 %ant compile.library compile.webapps compile.javadoc \
 	-Dcommons-beanutils.jar=%{_javadir}/commons-beanutils.jar \
@@ -124,13 +139,19 @@ export CLASSPATH=$(/usr/bin/build-classpath $required_jars)
 	-Dcommons-validator.jar=%{_javadir}/commons-validator.jar \
 	-Djakarta-oro.jar=%{_javadir}/oro.jar \
 	-Dantlr.jar=%{_javadir}/antlr.jar \
+%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
+cd src
 
 install -d $RPM_BUILD_ROOT%{_javadir}
-cp target/library/struts.jar $RPM_BUILD_ROOT%{_javadir}
-ln -sf struts.jar $RPM_BUILD_ROOT%{_javadir}/struts-%{version}.jar
+for src in */target/*.jar; do
+	jar=${src##*/}
+	name=${jar%%-%{version}.jar}
+	cp -a $src $RPM_BUILD_ROOT%{_javadir}/$name-%{version}.jar
+	ln -s $name-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/$name.jar
+done
 
 install -d $RPM_BUILD_ROOT%{_datadir}/%{name}
 cp target/library/*.tld $RPM_BUILD_ROOT%{_datadir}/%{name}
@@ -141,8 +162,7 @@ for webapp in %{webapps}; do
 	cp -pr target/$webapp $RPM_BUILD_ROOT%{tomcatappsdir}/%{name}-$webapp
 	ln -sf %{_javadir}/struts.jar $RPM_BUILD_ROOT%{tomcatappsdir}/%{name}-$webapp/WEB-INF/lib/struts.jar
 
-	for tld in $RPM_BUILD_ROOT%{_datadir}/%{name}/*.tld
-	do
+	for tld in $RPM_BUILD_ROOT%{_datadir}/%{name}/*.tld; do
 		FILE=`basename $tld`
 		FROM=%{_datadir}/%{name}/$FILE
 		TO=$RPM_BUILD_ROOT%{tomcatappsdir}/%{name}-$webapp/WEB-INF/$FILE
