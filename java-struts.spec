@@ -1,12 +1,12 @@
 Summary:	Web application framework
 Summary(pl.UTF-8):	Szkielet dla aplikacji WWW
 Name:		jakarta-struts
-Version:	1.3.8
+Version:	1.3.10
 Release:	0.1
 License:	Apache v2.0
 Group:		Development/Languages/Java
 Source0:	http://www.apache.org/dist/struts/source/struts-%{version}-src.zip
-# Source0-md5:	44b143605e664dd041b9294aa683af6a
+# Source0-md5:	7fb96adbc2b18ddd80462294cafb944d
 Patch0:		%{name}-build.patch
 URL:		http://struts.apache.org/
 #BuildRequires:	ant >= 1.6
@@ -41,7 +41,7 @@ BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define 	tomcatappsdir	%{_libdir}/tomcat/webapps
-%define 	webapps		blank example examples
+%define 	webapps		blank cookbook el-example examples faces-example1 faces-example2 mailreader scripting-mailreader
 
 %description
 Welcome to the Struts Framework! The goal of this project is to
@@ -109,7 +109,7 @@ Przykładowe aplikacje Struts dla tomcata.
 %setup -q -n struts-%{version}
 
 %build
-%define	mvn mvn --settings settings.xml
+%define	mvn mvn --settings $RPM_BUILD_DIR/settings.xml
 cd src
 
 export JAVA_HOME="%{java_home}"
@@ -122,6 +122,9 @@ EOF
 #%mvn install:install-file -DgroupId=org.apache.struts -DartifactId=struts-master -Dpackaging=jar -Dfile=$(build-classpath bsf) -Dversion=2.3.0
 %mvn install:install-file -DgroupId=bsf -DartifactId=bsf -Dpackaging=jar -Dfile=$(build-classpath bsf) -Dversion=2.3.0
 %mvn package
+
+cd apps
+%mvn
 
 %if 0
 required_jars="
@@ -154,12 +157,12 @@ for src in */target/*.jar; do
 done
 
 install -d $RPM_BUILD_ROOT%{_datadir}/%{name}
-cp target/library/*.tld $RPM_BUILD_ROOT%{_datadir}/%{name}
-cp target/library/*.dtd $RPM_BUILD_ROOT%{_datadir}/%{name}
+# cp target/library/*.tld $RPM_BUILD_ROOT%{_datadir}/%{name}
+# cp target/library/*.dtd $RPM_BUILD_ROOT%{_datadir}/%{name}
 
 install -d $RPM_BUILD_ROOT%{tomcatappsdir}
 for webapp in %{webapps}; do
-	cp -pr target/$webapp $RPM_BUILD_ROOT%{tomcatappsdir}/%{name}-$webapp
+	cp -pr apps/$webapp/target/struts-$webapp $RPM_BUILD_ROOT%{tomcatappsdir}/%{name}-$webapp
 	ln -sf %{_javadir}/struts.jar $RPM_BUILD_ROOT%{tomcatappsdir}/%{name}-$webapp/WEB-INF/lib/struts.jar
 
 	for tld in $RPM_BUILD_ROOT%{_datadir}/%{name}/*.tld; do
