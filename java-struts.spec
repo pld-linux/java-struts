@@ -163,14 +163,18 @@ install -d $RPM_BUILD_ROOT%{_datadir}/%{name}
 install -d $RPM_BUILD_ROOT%{tomcatappsdir}
 for webapp in %{webapps}; do
 	cp -pr apps/$webapp/target/struts-$webapp $RPM_BUILD_ROOT%{tomcatappsdir}/%{name}-$webapp
-	ln -sf %{_javadir}/struts.jar $RPM_BUILD_ROOT%{tomcatappsdir}/%{name}-$webapp/WEB-INF/lib/struts.jar
-
-	for tld in $RPM_BUILD_ROOT%{_datadir}/%{name}/*.tld; do
-		FILE=`basename $tld`
-		FROM=%{_datadir}/%{name}/$FILE
-		TO=$RPM_BUILD_ROOT%{tomcatappsdir}/%{name}-$webapp/WEB-INF/$FILE
-		ln -sf $FROM $TO
+	cd $RPM_BUILD_ROOT%{tomcatappsdir}/%{name}-$webapp/WEB-INF/lib
+	for jarfile in struts*.jar; do
+	  ln -sf %{_javadir}/$jarfile $jarfile
 	done
+	cd -
+
+	# for tld in $RPM_BUILD_ROOT%{_datadir}/%{name}/*.tld; do
+	# 	FILE=`basename $tld`
+	# 	FROM=%{_datadir}/%{name}/$FILE
+	# 	TO=$RPM_BUILD_ROOT%{tomcatappsdir}/%{name}-$webapp/WEB-INF/$FILE
+	# 	ln -sf $FROM $TO
+	# done
 done
 
 %clean
@@ -178,10 +182,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc INSTALL LICENSE.txt README STATUS.txt
-%{_javadir}/*.jar
-%{_datadir}/%{name}
+%doc LICENSE.txt NOTICE.txt
+%{_javadir}/struts-*.jar
 
+%if 0
 %files doc
 %defattr(644,root,root,755)
 %doc target/documentation/*.html
@@ -190,6 +194,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc target/documentation/userGuide
 %doc target/documentation/images
 %doc target/documentation/api
+%endif
 
 %files webapps
 # XXX: this defattr is EVIL, is global http:http really needed???
