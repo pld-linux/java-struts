@@ -196,6 +196,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc target/documentation/api
 %endif
 
+%if 0
 %files webapps
 # XXX: this defattr is EVIL, is global http:http really needed???
 %defattr(644,http,http,755)
@@ -255,3 +256,4 @@ rm -rf $RPM_BUILD_ROOT
 %{tomcatappsdir}/%{name}-examples/validator
 %{tomcatappsdir}/%{name}-examples/*.html
 %{tomcatappsdir}/%{name}-examples/*.jsp
+%endif
