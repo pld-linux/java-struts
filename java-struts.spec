@@ -27,12 +27,12 @@ BuildRequires:	jdbc-stdext >= 2.0-2
 BuildRequires:	maven >= 2
 BuildRequires:	rpmbuild(macros) >= 1.300
 #BuildRequires:	servlet5
-Requires:	jakarta-commons-beanutils
-Requires:	jakarta-commons-collections
-Requires:	jakarta-commons-digester
-Requires:	jakarta-commons-fileupload
+Requires:	java-commons-beanutils
+Requires:	java-commons-collections
+Requires:	java-commons-digester
+Requires:	java-commons-fileupload
 Requires:	jakarta-commons-lang
-Requires:	jakarta-commons-logging >= 1.0.3
+Requires:	java-commons-logging >= 1.0.3
 Requires:	jakarta-commons-validator
 Requires:	jakarta-oro
 Requires:	jdbc-stdext >= 2.0
