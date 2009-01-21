@@ -157,7 +157,7 @@ for src in */target/*.jar; do
 done
 
 install -d $RPM_BUILD_ROOT%{_datadir}/%{name}
-# cp target/library/*.tld $RPM_BUILD_ROOT%{_datadir}/%{name}
+cp taglib/target/classes/META-INF/tld/*.tld $RPM_BUILD_ROOT%{_datadir}/%{name}
 # cp target/library/*.dtd $RPM_BUILD_ROOT%{_datadir}/%{name}
 
 install -d $RPM_BUILD_ROOT%{tomcatappsdir}
@@ -184,6 +184,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc LICENSE.txt NOTICE.txt
 %{_javadir}/struts-*.jar
+%{_datadir}/%{name}
 
 %if 0
 %files doc
