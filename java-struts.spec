@@ -14,6 +14,7 @@ URL:		http://struts.apache.org/
 #BuildRequires:	ant-nodeps
 #BuildRequires:	ant-trax
 #BuildRequires:	antlr >= 2.7.2
+BuildRequires:	bsf
 #BuildRequires:	jakarta-oro >= 2.0.7
 #BuildRequires:	java-commons-beanutils >= 1.6.1
 #BuildRequires:	java-commons-collections
