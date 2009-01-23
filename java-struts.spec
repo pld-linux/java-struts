@@ -1,6 +1,6 @@
 Summary:	Web application framework
 Summary(pl.UTF-8):	Szkielet dla aplikacji WWW
-Name:		jakarta-struts
+Name:		java-struts
 Version:	1.3.10
 Release:	0.1
 License:	Apache v2.0
@@ -14,13 +14,13 @@ URL:		http://struts.apache.org/
 #BuildRequires:	ant-nodeps
 #BuildRequires:	ant-trax
 #BuildRequires:	antlr >= 2.7.2
-#BuildRequires:	jakarta-commons-beanutils >= 1.6.1
-#BuildRequires:	jakarta-commons-collections
-#BuildRequires:	jakarta-commons-digester >= 1.5
-#BuildRequires:	jakarta-commons-fileupload >= 1.0
-#BuildRequires:	jakarta-commons-lang
-#BuildRequires:	jakarta-commons-logging >= 1.0.3
-#BuildRequires:	jakarta-commons-validator >= 1.1.0
+#BuildRequires:	java-commons-beanutils >= 1.6.1
+#BuildRequires:	java-commons-collections
+#BuildRequires:	java-commons-digester >= 1.5
+#BuildRequires:	java-commons-fileupload >= 1.0
+#BuildRequires:	java-commons-lang
+#BuildRequires:	java-commons-logging >= 1.0.3
+#BuildRequires:	java-commons-validator >= 1.1.0
 #BuildRequires:	jakarta-oro >= 2.0.7
 BuildRequires:	jdbc-stdext >= 2.0-2
 #BuildRequires:	jpackage-utils
@@ -31,9 +31,9 @@ Requires:	java-commons-beanutils
 Requires:	java-commons-collections
 Requires:	java-commons-digester
 Requires:	java-commons-fileupload
-Requires:	jakarta-commons-lang
+Requires:	java-commons-lang
 Requires:	java-commons-logging >= 1.0.3
-Requires:	jakarta-commons-validator
+Requires:	java-commons-validator
 Requires:	jakarta-oro
 Requires:	jdbc-stdext >= 2.0
 Requires:	servlet
@@ -97,7 +97,7 @@ Summary:	Sample Struts webapps for tomcat
 Summary(pl.UTF-8):	Przykładowe aplikacje Struts dla tomcata
 Group:		Development/Languages/Java
 Requires:	%{name} = %{version}-%{release}
-Requires:	jakarta-tomcat
+Requires:	apache-tomcat
 
 %description webapps
 Sample Struts webapps for tomcat.
