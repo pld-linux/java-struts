@@ -14,6 +14,7 @@ URL:		http://struts.apache.org/
 #BuildRequires:	ant-nodeps
 #BuildRequires:	ant-trax
 #BuildRequires:	antlr >= 2.7.2
+#BuildRequires:	jakarta-oro >= 2.0.7
 #BuildRequires:	java-commons-beanutils >= 1.6.1
 #BuildRequires:	java-commons-collections
 #BuildRequires:	java-commons-digester >= 1.5
@@ -21,12 +22,12 @@ URL:		http://struts.apache.org/
 #BuildRequires:	java-commons-lang
 #BuildRequires:	java-commons-logging >= 1.0.3
 #BuildRequires:	java-commons-validator >= 1.1.0
-#BuildRequires:	jakarta-oro >= 2.0.7
 BuildRequires:	jdbc-stdext >= 2.0-2
 #BuildRequires:	jpackage-utils
 BuildRequires:	maven >= 2
 BuildRequires:	rpmbuild(macros) >= 1.300
 #BuildRequires:	servlet5
+Requires:	jakarta-oro
 Requires:	java-commons-beanutils
 Requires:	java-commons-collections
 Requires:	java-commons-digester
@@ -34,9 +35,9 @@ Requires:	java-commons-fileupload
 Requires:	java-commons-lang
 Requires:	java-commons-logging >= 1.0.3
 Requires:	java-commons-validator
-Requires:	jakarta-oro
 Requires:	jdbc-stdext >= 2.0
 Requires:	servlet
+Obsoletes:	jakarta-struts
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -85,6 +86,7 @@ Struts obejmuje następujące obszary funkcjonalności:
 Summary:	Struts framework documentation
 Summary(pl.UTF-8):	Dokumentacja do środowiska Struts
 Group:		Documentation
+Obsoletes:	jakarta-struts-doc
 
 %description doc
 Struts framework documentation.
@@ -98,6 +100,7 @@ Summary(pl.UTF-8):	Przykładowe aplikacje Struts dla tomcata
 Group:		Development/Languages/Java
 Requires:	%{name} = %{version}-%{release}
 Requires:	apache-tomcat
+Obsoletes:	jakarta-struts-webapps
 
 %description webapps
 Sample Struts webapps for tomcat.
