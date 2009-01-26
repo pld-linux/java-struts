@@ -203,8 +203,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %if 0
 %files webapps
-# XXX: this defattr is EVIL, is global http:http really needed???
-%defattr(644,http,http,755)
+# XXX: this defattr is EVIL, is global tomcat:tomcat really needed???
+%defattr(644,tomcat,tomcat,755)
 %dir %{tomcatappsdir}/%{name}-blank
 %dir %{tomcatappsdir}/%{name}-blank/WEB-INF
 %config(noreplace) %{tomcatappsdir}/%{name}-blank/WEB-INF/web.xml
