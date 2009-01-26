@@ -1,0 +1,4 @@
+- up to 1.3.10
+- build example webapps
+- build all example webapps
+- NFY: %installs, %files section fails
