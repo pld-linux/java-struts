@@ -2,7 +2,7 @@ Summary:	Web application framework
 Summary(pl.UTF-8):	Szkielet dla aplikacji WWW
 Name:		java-struts
 Version:	1.3.10
-Release:	0.1
+Release:	1
 License:	Apache v2.0
 Group:		Development/Languages/Java
 Source0:	http://www.apache.org/dist/struts/source/struts-%{version}-src.zip
