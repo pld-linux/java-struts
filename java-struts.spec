@@ -4,7 +4,7 @@ Name:		java-struts
 Version:	1.3.10
 Release:	1
 License:	Apache v2.0
-Group:		Development/Languages/Java
+Group:		Libraries/Java
 Source0:	http://www.apache.org/dist/struts/source/struts-%{version}-src.zip
 # Source0-md5:	7fb96adbc2b18ddd80462294cafb944d
 Patch0:		%{name}-build.patch
