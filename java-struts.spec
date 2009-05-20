@@ -35,6 +35,8 @@ BuildRequires:	bsf
 BuildRequires:	jdbc-stdext >= 2.0-2
 #BuildRequires:	jpackage-utils
 BuildRequires:	maven >= 2
+BuildRequires:	rpm >= 4.4.9-56
+BuildRequires:	rpm-javaprov
 BuildRequires:	rpmbuild(macros) >= 1.300
 #BuildRequires:	servlet5
 Requires:	jakarta-oro
