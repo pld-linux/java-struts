@@ -1,8 +1,17 @@
+%bcond_without	javadoc		# don't build javadoc
+%if "%{pld_release}" == "ti"
+%bcond_without	java_sun	# build with gcj
+%else
+%bcond_with	java_sun	# build with java-sun
+%endif
+
+%include	/usr/lib/rpm/macros.java
+
 Summary:	Web application framework
 Summary(pl.UTF-8):	Szkielet dla aplikacji WWW
 Name:		java-struts
 Version:	1.3.10
-Release:	1
+Release:	1.1
 License:	Apache v2.0
 Group:		Libraries/Java
 Source0:	http://www.apache.org/dist/struts/source/struts-%{version}-src.zip
@@ -42,7 +51,7 @@ Obsoletes:	jakarta-struts
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define 	tomcatappsdir	%{_libdir}/tomcat/webapps
+%define 	tomcatappsdir	%{_datadir}/%{name}/webapps
 %define 	webapps		blank cookbook el-example examples faces-example1 faces-example2 mailreader scripting-mailreader
 
 %description
@@ -98,9 +107,9 @@ Dokumentacja do środowiska Struts.
 %package webapps
 Summary:	Sample Struts webapps for tomcat
 Summary(pl.UTF-8):	Przykładowe aplikacje Struts dla tomcata
-Group:		Development/Languages/Java
+Group:		Networking/Daemons/Java/Servlets
 Requires:	%{name} = %{version}-%{release}
-Requires:	apache-tomcat
+Requires:	tomcat
 Obsoletes:	jakarta-struts-webapps
 
 %description webapps
