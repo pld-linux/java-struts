@@ -1,10 +1,3 @@
-%bcond_without	javadoc		# don't build javadoc
-%if "%{pld_release}" == "ti"
-%bcond_without	java_sun	# build with gcj
-%else
-%bcond_with	java_sun	# build with java-sun
-%endif
-
 %include	/usr/lib/rpm/macros.java
 
 Summary:	Web application framework
@@ -25,6 +18,7 @@ URL:		http://struts.apache.org/
 #BuildRequires:	antlr >= 2.7.2
 BuildRequires:	bsf
 #BuildRequires:	jakarta-oro >= 2.0.7
+BuildRequires:	java(jdbc-stdext) >= 2.0-2
 #BuildRequires:	java-commons-beanutils >= 1.6.1
 #BuildRequires:	java-commons-collections
 #BuildRequires:	java-commons-digester >= 1.5
@@ -32,14 +26,14 @@ BuildRequires:	bsf
 #BuildRequires:	java-commons-lang
 #BuildRequires:	java-commons-logging >= 1.0.3
 #BuildRequires:	java-commons-validator >= 1.1.0
-BuildRequires:	jdbc-stdext >= 2.0-2
 #BuildRequires:	jpackage-utils
 BuildRequires:	maven >= 2
 BuildRequires:	rpm >= 4.4.9-56
 BuildRequires:	rpm-javaprov
 BuildRequires:	rpmbuild(macros) >= 1.300
 #BuildRequires:	servlet5
-Requires:	jakarta-oro
+Requires:	java(jdbc-stdext) >= 2.0
+Requires:	java(servlet)
 Requires:	java-commons-beanutils
 Requires:	java-commons-collections
 Requires:	java-commons-digester
@@ -47,8 +41,7 @@ Requires:	java-commons-fileupload
 Requires:	java-commons-lang
 Requires:	java-commons-logging >= 1.0.3
 Requires:	java-commons-validator
-Requires:	jdbc-stdext >= 2.0
-Requires:	servlet
+Requires:	java-oro
 Obsoletes:	jakarta-struts
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
