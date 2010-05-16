@@ -32,6 +32,7 @@ BuildRequires:	rpm >= 4.4.9-56
 BuildRequires:	rpm-javaprov
 BuildRequires:	rpmbuild(macros) >= 1.300
 #BuildRequires:	servlet5
+BuildRequires:	unzip
 Requires:	java(jdbc-stdext) >= 2.0
 Requires:	java(servlet)
 Requires:	java-commons-beanutils
