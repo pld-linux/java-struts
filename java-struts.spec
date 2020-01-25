@@ -1,4 +1,3 @@
-%include	/usr/lib/rpm/macros.java
 
 Summary:	Web application framework
 Summary(pl.UTF-8):	Szkielet dla aplikacji WWW
